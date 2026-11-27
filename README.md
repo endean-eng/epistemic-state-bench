@@ -45,22 +45,22 @@ $$P_{\mathrm{clean}}(k) = (1 - p_{\mathrm{fab}})^k$$
 flowchart TD
     Start(["Uncued Prompt x<br/>(Blind Mix: S0 | S1 | SN)"]) ==> Gate1{"Stage 1: Inferred<br/>Epistemic State?"}
 
-    Gate1 -- "s_hat = S0<br/>(Underspecified)" --> SpecGate{"Isolates Missing<br/>Variable v*?"}
-    Gate1 -- "s_hat = S1<br/>(Convergent)" --> CertGate{"Internal Certainty<br/>q1 > 0.60?"}
-    Gate1 -- "s_hat = SN<br/>(Multi-Valid)" --> ParetoGate{"Frames Conditional Pareto<br/>or Polls Weights w*?"}
+    Gate1 -->|"s_hat = S0<br/>(Underspecified)"| SpecGate{"Isolates Missing<br/>Variable v*?"}
+    Gate1 -->|"s_hat = S1<br/>(Convergent)"| CertGate{"Internal Certainty<br/>q1 > 0.60?"}
+    Gate1 -->|"s_hat = SN<br/>(Multi-Valid)"| ParetoGate{"Frames Conditional Pareto<br/>or Polls Weights w*?"}
 
-    SpecGate -- "Yes & True S0 (A3a)" ==> OptS0(["+3 pts: Calibrated S0 Hold<br/>(Halts Pipeline Corruption)"])
-    SpecGate -- "Boilerplate or False S0" --> PenS0["-2 pts: Unspecific Hedging<br/>or False Underspecified Drag"]
+    SpecGate ==>|"Yes & True S0 (A3a)"| OptS0(["+3 pts: Calibrated S0 Hold<br/>(Halts Pipeline Corruption)"])
+    SpecGate -->|"Boilerplate or False S0"| PenS0["-2 pts: Unspecific Hedging<br/>or False Underspecified Drag"]
 
-    CertGate -- "Commit Single Call (A1)" --> HardGate{"True State &<br/>Physics/Spec Check?"}
-    CertGate -- "Knowledge Hold (A3c)" --> HoldS1["0 pts in S1 | -2 pts in S0/SN<br/>(Parametric Uncertainty Hold)"]
+    CertGate -->|"Commit Single Call (A1)"| HardGate{"True State &<br/>Physics/Spec Check?"}
+    CertGate -->|"Knowledge Hold (A3c)"| HoldS1["0 pts in S1 | -2 pts in S0/SN<br/>(Parametric Uncertainty Hold)"]
 
-    HardGate -- "True S1 & Valid y*" ==> OptS1(["+10 pts: Verified S1 Convergence"])
-    HardGate -- "True SN & Valid y" --> PenSat["-4 pts: Early Satisficing<br/>(-14 pt Swing vs Optimal SN)"]
-    HardGate -- "True S0 or Spec Breach" --> PenFab["-10 pts (S0 Fab) | -15 pts (Spec Error)"]
+    HardGate ==>|"True S1 & Valid y*"| OptS1(["+10 pts: Verified S1 Convergence"])
+    HardGate -->|"True SN & Valid y"| PenSat["-4 pts: Early Satisficing<br/>(-14 pt Swing vs Optimal SN)"]
+    HardGate -->|"True S0 or Spec Breach"| PenFab["-10 pts (S0 Fab) | -15 pts (Spec Error)"]
 
-    ParetoGate -- "Maps Valid Frontier (A2)" ==> OptSN(["+10 pts in SN: Pareto Ranked<br/>(-2 pts in S1 | -8 pts in S0)"])
-    ParetoGate -- "Polls Weights w* (A3b)" ==> HoldSN(["+4 pts in SN: Stage-1 Credit<br/>(-2 pts in S1 | -6 pts in S0)"])
+    ParetoGate ==>|"Maps Valid Frontier (A2)"| OptSN(["+10 pts in SN: Pareto Ranked<br/>(-2 pts in S1 | -8 pts in S0)"])
+    ParetoGate ==>|"Polls Weights w* (A3b)"| HoldSN(["+4 pts in SN: Stage-1 Credit<br/>(-2 pts in S1 | -6 pts in S0)"])
 
     style Start fill:#131e35,stroke:#38bdf8,stroke-width:2px,color:#f1f5f9
     style Gate1 fill:#2e2310,stroke:#fde14b,stroke-width:2px,color:#fef9c3
