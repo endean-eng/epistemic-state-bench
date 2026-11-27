@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this benchmarking specification or scoring protocol in your research or evaluation pipelines, please cite it using the metadata from this file."
+title: "State Recognition Before Execution: Blind S0 / S1 / SN Epistemic Benchmarking"
+type: software
+authors:
+
+family-names: "Dean"
+given-names: "Elijah N."
+affiliation: "Dean Innovative Design LLC"
+version: "1.1.2"
+doi: "10.5281/zenodo.24598906"
+date-released: "2026-11-27"
+url: "https://doi.org/10.5281/zenodo.24598906"
+repository-code: "https://github.com/endean-eng/epistemic-state-bench"
+abstract: >-
+  A blind S0 / S1 / SN epistemic benchmarking specification and two-stage
+  expected-value (EV) scoring protocol that isolates autonomous problem-state
+  recognition (Underspecified, Convergent, Multi-Valid) before domain execution
+  in large language models and multi-agent pipelines.
+
+keywords:
+  - llm-evaluation
+  - ai-benchmarks
+  - epistemic-uncertainty
+  - multi-agent-systems
+  - abstention
+  - pareto-optimization
+  - game-theory
+  - systems-engineering
+
+license: MIT

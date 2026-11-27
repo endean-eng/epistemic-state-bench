@@ -2,8 +2,9 @@
 
 **A blind $S_0 / S_1 / S_N$ epistemic benchmarking specification and two-stage expected-value ($\mathrm{EV}$) scoring protocol that isolates autonomous problem-state recognition before domain execution.**
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24598906.svg)](https://doi.org/10.5281/zenodo.24598906)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Spec: v1.1.1](https://img.shields.io/badge/spec-v1.1.0-0284c7.svg)](Blind%20State-Mixed%20Epistemic%20Benchmarking%20Specification.md)
+[![Spec: v1.1.2](https://img.shields.io/badge/spec-v1.1.0-0284c7.svg)](Blind%20State-Mixed%20Epistemic%20Benchmarking%20Specification.md)
 [![Dependencies: Zero (stdlib)](https://img.shields.io/badge/dependencies-zero%20(stdlib)-brightgreen.svg)](#supply-chain-minimalism--5-minute-auditability)
 
 ---
@@ -222,17 +223,18 @@ To export the `1:1` blueprint visual cards to a crisp vector PDF:
 
 ## Citation & Attribution
 
-Authored by **Elijah N. Dean, BSME** (`endean-eng` // Dean Innovative Design LLC).
+Authored by **Elijah N. Dean, BSME** (`endean-eng` // Dean Innovative Design LLC). Permanently archived via Zenodo at [`10.5281/zenodo.24598906`](https://doi.org/10.5281/zenodo.24598906).
 
 ```bibtex
 @techreport{dean2026epistemic,
   title       = {State Recognition Before Execution: Blind S0 / S1 / SN Epistemic Benchmarking},
   author      = {Dean, Elijah N.},
   institution = {Dean Innovative Design LLC},
-  version     = {1.1.0},
+  version     = {1.1.1},
   year        = {2026},
   month       = {11},
-  url         = {[https://github.com/endean-eng/epistemic-state-bench](https://github.com/endean-eng/epistemic-state-bench)}
+  doi         = {10.5281/zenodo.24598906},
+  url         = {[https://doi.org/10.5281/zenodo.24598906](https://doi.org/10.5281/zenodo.24598906)}
 }
 ```
 
