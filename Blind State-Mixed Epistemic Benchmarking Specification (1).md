@@ -1,6 +1,6 @@
 # State Recognition Before Execution: Blind $S_0 / S_1 / S_N$ Epistemic Benchmarking
 
-* **Specification Version:** `1.1.0` (2026-11-25)
+* **Specification Version:** `1.1.1` (2026-11-25)
 * **Author:** Elijah N. Dean, BSME (`endean-eng` // Dean Innovative Design LLC)
 * **Scope:** Two-stage expected-value ($\mathrm{EV}$) evaluation specification for measuring autonomous problem-state classification, calibrated abstention on **Underspecified** inputs ($S_0$), deterministic execution on **Convergent** inputs ($S_1$), and Pareto/trade-space framing on **Multi-Valid** inputs ($S_N$) in large language models and multi-agent pipelines.
 
@@ -67,41 +67,41 @@ Uncued **Multi-Valid** ($S_N$) problems—including finite discrete subsets such
 > **The Blind-Prompting Invariant:** Conformant benchmark suites MUST mix $S_0$ (**Underspecified**), $S_1$ (**Convergent**), and $S_N$ (**Multi-Valid**) prompts blindly with zero prompt-level state cues. Prompts must never state *"abstain if information is insufficient"* or *"compare three designs and optimize for cost and weight."* Explicitly requesting an optimization hands Stage-1 state classification to the model for free, collapsing an $S_N$ state-recognition test into a cued $S_1$ instruction-following test.
 
 ```mermaid
-%%{init: {'theme': 'base', 'flowchart': {'wrappingWidth': 360, 'nodeSpacing': 36, 'rankSpacing': 42, 'curve': 'basis'}, 'themeVariables': { 'primaryColor': '#0f172a', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#2d4268', 'lineColor': '#94a3b8', 'edgeLabelBackground': '#0f172a', 'fontFamily': 'Consolas, monospace', 'fontSize': '13.5px'}}}%%
-flowchart TD
-    Start(["Uncued Prompt x<br/>(Blind Mix: S0 | S1 | SN)"]) ==> Gate1{"Stage 1: Inferred<br/>State Classification"}
+%%{init: {'theme': 'base', 'flowchart': {'wrappingWidth': 220, 'nodeSpacing': 18, 'rankSpacing': 34, 'curve': 'basis'}, 'themeVariables': { 'primaryColor': '#0f172a', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#2d4268', 'lineColor': '#94a3b8', 'edgeLabelBackground': '#0f172a', 'fontFamily': 'Consolas, monospace', 'fontSize': '12px'}}}%%
+flowchart LR
+    Start(["Uncued Prompt x<br/>(S0 | S1 | SN)"]) ==> Gate1{"Stage 1:<br/>State?"}
 
-    Gate1 -- "s_hat = S0<br/>(Underspecified Hold)" --> SpecCheck{"Names Governing<br/>Missing Variable v*?"}
-    Gate1 -- "s_hat = S1<br/>(Convergent Path)" --> ConfCheck{"Internal Certainty<br/>q1 > 0.60?"}
-    Gate1 -- "s_hat = SN<br/>(Multi-Valid Space)" --> WeightCheck{"Maps Conditional Pareto<br/>or Requests Weights w*?"}
+    Gate1 -->|"s_hat = S0"| SpecCheck{"Names<br/>v*?"}
+    Gate1 -->|"s_hat = S1"| ConfCheck{"Certainty<br/>q1 > 0.60?"}
+    Gate1 -->|"s_hat = SN"| WeightCheck{"Pareto Map or<br/>Query w*?"}
 
-    SpecCheck -- "Yes & True S0" ==> OptS0(["+3 pts: Calibrated S0 Hold<br/>(Halts Pipeline Safely)"])
-    SpecCheck -- "No v* or False S0" --> PenBoiler["-2 pts: Boilerplate or<br/>False Underspecified Drag"]
+    SpecCheck ==>|"Yes & True S0 (A3a)"| OptS0(["+3 pts: Calibrated S0 Hold<br/>(Halts Pipeline Safely)"])
+    SpecCheck -->|"No v* or False S0"| PenBoiler["-2 pts: Boilerplate or<br/>False Underspecified Drag"]
 
-    ConfCheck -- "Yes -> Commit (A1)" --> ExecS1{"True State &<br/>Hard Spec Check"}
-    ConfCheck -- "No -> Knowledge Hold (A3c)" --> HoldMK["0 pts in S1 | -2 pts in S0/SN<br/>(Parametric Knowledge Abstention)"]
+    ConfCheck -->|"Commit (A1)"| ExecS1{"True S1 &<br/>Valid y*?"}
+    ConfCheck -->|"Hold (A3c)"| HoldMK["0 pts S1 | -2 pts S0/SN<br/>(Parametric Knowledge Hold)"]
 
-    ExecS1 -- "True S1 & Valid y*" ==> OptS1(["+10 pts: Optimal S1 Convergence"])
-    ExecS1 -- "True SN & Valid y" --> PenSat["-4 pts: Early Satisficing<br/>(-14 pt Swing vs Optimal SN)"]
-    ExecS1 -- "True S0 or Spec Error" --> PenFab["-10 pts (S0 Fab) | -15 pts (Spec Error)"]
+    ExecS1 ==>|"True S1 & Valid y*"| OptS1(["+10 pts: S1 Convergence"])
+    ExecS1 -->|"True SN & Valid y"| PenSat["-4 pts: Early Satisficing<br/>(-14 pt Swing vs Optimal SN)"]
+    ExecS1 -->|"True S0 or Spec Error"| PenFab["-10 pts S0 Fab | -15 pts Error"]
 
-    WeightCheck -- "Maps Multi-Valid Space (A2)" ==> OptSN(["+10 pts in SN: Pareto Ranked<br/>(-2 pts in S1 | -8 pts in S0)"])
-    WeightCheck -- "Requests Weights w* (A3b)" ==> HoldSN(["+4 pts in SN: Stage-1 Credit<br/>(-2 pts in S1 | -6 pts in S0)"])
+    WeightCheck ==>|"Maps Frontier (A2)"| OptSN(["+10 pts SN: Pareto Ranked<br/>(-2 pts S1 | -8 pts S0)"])
+    WeightCheck ==>|"Queries w* (A3b)"| HoldSN(["+4 pts SN: Stage-1 Credit<br/>(-2 pts S1 | -6 pts S0)"])
 
     style Start fill:#131e35,stroke:#38bdf8,stroke-width:2px,color:#f1f5f9
-    style Gate1 fill:#2e2310,stroke:#fbbf24,stroke-width:2px,color:#fef3c7
-    style SpecCheck fill:#2e2310,stroke:#fbbf24,stroke-width:2px,color:#fef3c7
-    style ConfCheck fill:#2e2310,stroke:#fbbf24,stroke-width:2px,color:#fef3c7
-    style WeightCheck fill:#2e2310,stroke:#fbbf24,stroke-width:2px,color:#fef3c7
-    style ExecS1 fill:#2e2310,stroke:#fbbf24,stroke-width:2px,color:#fef3c7
-    style OptS0 fill:#082f38,stroke:#22d3ee,stroke-width:2px,color:#ecfeff
-    style OptS1 fill:#082f38,stroke:#22d3ee,stroke-width:2px,color:#ecfeff
-    style OptSN fill:#082f38,stroke:#22d3ee,stroke-width:2px,color:#ecfeff
-    style HoldSN fill:#082f38,stroke:#22d3ee,stroke-width:2px,color:#ecfeff
-    style HoldMK fill:#2e2310,stroke:#fbbf24,stroke-width:1.5px,color:#fef3c7
-    style PenBoiler fill:#3b0a14,stroke:#f43f5e,stroke-width:1.5px,color:#ffe4e6
-    style PenSat fill:#3b0a14,stroke:#f43f5e,stroke-width:2px,color:#ffe4e6
-    style PenFab fill:#3b0a14,stroke:#f43f5e,stroke-width:2px,color:#ffe4e6
+    style Gate1 fill:#272011,stroke:#fde14b,stroke-width:2px,color:#fef9c3
+    style SpecCheck fill:#272011,stroke:#fde14b,stroke-width:2px,color:#fef9c3
+    style ConfCheck fill:#272011,stroke:#fde14b,stroke-width:2px,color:#fef9c3
+    style WeightCheck fill:#272011,stroke:#fde14b,stroke-width:2px,color:#fef9c3
+    style ExecS1 fill:#272011,stroke:#fde14b,stroke-width:2px,color:#fef9c3
+    style OptS0 fill:#06283d,stroke:#12aaf0,stroke-width:2px,color:#dbeafe
+    style OptS1 fill:#06283d,stroke:#12aaf0,stroke-width:2px,color:#dbeafe
+    style OptSN fill:#06283d,stroke:#12aaf0,stroke-width:2px,color:#dbeafe
+    style HoldSN fill:#06283d,stroke:#12aaf0,stroke-width:2px,color:#dbeafe
+    style HoldMK fill:#272011,stroke:#fde14b,stroke-width:1.5px,color:#fef9c3
+    style PenBoiler fill:#3b0a18,stroke:#c81a41,stroke-width:1.5px,color:#ffe4e6
+    style PenSat fill:#3b0a18,stroke:#c81a41,stroke-width:2px,color:#ffe4e6
+    style PenFab fill:#3b0a18,stroke:#c81a41,stroke-width:2px,color:#ffe4e6
 ```
 
 ---
