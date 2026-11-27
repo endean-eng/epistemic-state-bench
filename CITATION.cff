@@ -3,10 +3,9 @@ message: "If you use this benchmarking specification or scoring protocol in your
 title: "State Recognition Before Execution: Blind S0 / S1 / SN Epistemic Benchmarking"
 type: software
 authors:
-
-family-names: "Dean"
-given-names: "Elijah N."
-affiliation: "Dean Innovative Design LLC"
+  - family-names: "Dean"
+    given-names: "Elijah N."
+    affiliation: "Dean Innovative Design LLC"
 version: "1.1.2"
 doi: "10.5281/zenodo.24598906"
 date-released: "2026-11-27"

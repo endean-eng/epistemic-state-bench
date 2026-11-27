@@ -4,18 +4,19 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24598906.svg)](https://doi.org/10.5281/zenodo.24598906)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Spec: v1.1.2](https://img.shields.io/badge/spec-v1.1.0-0284c7.svg)](Blind%20State-Mixed%20Epistemic%20Benchmarking%20Specification.md)
+[![Spec: v1.1.2](https://img.shields.io/badge/spec-v1.1.2-0284c7.svg)](Blind%20State-Mixed%20Epistemic%20Benchmarking%20Specification.md)
 [![Dependencies: Zero (stdlib)](https://img.shields.io/badge/dependencies-zero%20(stdlib)-brightgreen.svg)](#supply-chain-minimalism--5-minute-auditability)
 
 ---
 
 ## Supply-Chain Minimalism & 5-Minute Auditability
 
-* **Zero External Dependencies (`stdlib` Purity):** This specification repository ships pure CommonMark/MathJax Markdown and standalone static HTML/CSS visual schematics—requiring zero `pip install` or `npm install` packages, zero runtime network calls, zero Dependabot churn, and zero transitive CVE surface. Reference rubric invariant checks run entirely in standard-library Python (`python3 >= 3.10`).
+* **Zero External Dependencies (`stdlib` Purity):** This specification repository ships pure CommonMark/MathJax Markdown, YAML metadata, and standalone static HTML/CSS/PDF visual schematics—requiring zero `pip install` or `npm install` packages, zero runtime network calls, zero Dependabot churn, and zero transitive CVE surface. Reference rubric invariant checks run entirely in standard-library Python (`python3 >= 3.10`).
 * **5-Minute Human Auditability:**
   * [`Blind State-Mixed Epistemic Benchmarking Specification.md`](Blind%20State-Mixed%20Epistemic%20Benchmarking%20Specification.md) (~270 lines of formal specification, anti-gaming proofs, and matched domain triplets; auditable end-to-end in `< 5 minutes`).
-  * [`assets/epistemic-state-carousel-1x1.html`](assets/epistemic-state-carousel-1x1.html) (~460 lines of self-contained HTML/CSS with zero external scripts, web fonts, or CDN calls; auditable in `< 3 minutes`).
-* **Explicit Egress & Privilege Boundaries:** Zero outbound network egress (`0` endpoints contacted), zero local file-system writes during verification, and read-only (`contents: read`) repository token scope for optional CI math/payoff checks.
+  * [`assets/epistemic_state_carousel_1x1_v1_1_0.html`](assets/epistemic_state_carousel_1x1_v1_1_0.html) (~925 lines of self-contained HTML/CSS with zero external scripts, web fonts, or CDN calls; pre-exported to [`assets/epistemic-state-carousel.pdf`](assets/epistemic-state-carousel.pdf)).
+  * [`CITATION.cff`](CITATION.cff) & [`.github/workflows/notebooksync.yml`](.github/workflows/notebooksync.yml) (~31 and ~38 lines respectively; auditable in `< 1 minute`).
+* **Explicit Egress & Privilege Boundaries:** Zero outbound network egress (`0` endpoints contacted) and zero local file-system writes during local rubric verification. Repository CI workflows run with strict least-privilege `permissions: contents: read` and 40-character SHA-pinned actions.
 
 ---
 
@@ -117,8 +118,11 @@ $$R_{\mathrm{total}}(\hat{s}, y \mid s) = R_{\mathrm{state}}(\hat{s} \mid s) + \
 
 | File Path | Role & Format |
 | :--- | :--- |
-| [`Blind State-Mixed Epistemic Benchmarking Specification.md`](Blind%20State-Mixed%20Epistemic%20Benchmarking%20Specification.md) | Canonical `v1.1.0` formal specification: `S0 / S1 / SN` taxonomy, `6x3` payoff matrix, anti-gaming proofs, 1-turn & 2-turn protocols, 3 matched domain triplets (Mechanical Design, ISO Tolerancing, Clinical Triage), and saturation-adaptive leaderboard rules. |
-| [`assets/epistemic-state-carousel-1x1.html`](assets/epistemic-state-carousel-1x1.html) | Self-contained 2-page `1080x1080` (`1:1`) visual blueprint specification engineered with a deuteranopia/protanopia-safe and CIE `L*` grayscale-staircased palette (`Ctrl+P -> Save as PDF`). |
+| [`Blind State-Mixed Epistemic Benchmarking Specification.md`](Blind%20State-Mixed%20Epistemic%20Benchmarking%20Specification.md) | Canonical `v1.1.2` formal specification: `S0 / S1 / SN` taxonomy, `6x3` payoff matrix, anti-gaming proofs, 1-turn & 2-turn protocols, 3 matched domain triplets (Mechanical Design, ISO Tolerancing, Clinical Triage), and saturation-adaptive leaderboard rules. |
+| [`assets/epistemic_state_carousel_1x1_v1_1_0.html`](assets/epistemic_state_carousel_1x1_v1_1_0.html) | Self-contained 2-page `1080x1080` (`1:1`) visual blueprint specification engineered with a deuteranopia/protanopia-safe and CIE `L*` grayscale-staircased palette (`Ctrl+P -> Save as PDF`). |
+| [`assets/epistemic-state-carousel.pdf`](assets/epistemic-state-carousel.pdf) | Pre-rendered 2-page `1:1` vector PDF export of the visual blueprint specification ready for direct review or distribution. |
+| [`CITATION.cff`](CITATION.cff) | Citation File Format (`1.2.0`) metadata powering GitHub's native *"Cite this repository"* widget and Zenodo archival attribution. |
+| [`.github/workflows/notebooksync.yml`](.github/workflows/notebooksync.yml) | Optional maintainer workflow (`permissions: contents: read`, SHA-pinned) that shards repository files to Google Drive / Gemini Notebook on pushes to `main`. |
 | [`LICENSE`](LICENSE) | Permissive MIT License. |
 
 ### Least-Privilege CI Invariant Verification Workflow
@@ -148,7 +152,7 @@ jobs:
 
       - name: Verify State-Blind Non-Positivity & Thresholds (Python stdlib)
         env:
-          SPEC_VERSION: "1.1.0"
+          SPEC_VERSION: "1.1.2"
         run: |
           echo "Auditing epistemic-state-bench invariants for v\${SPEC_VERSION}..."
           python3 -c '
@@ -174,7 +178,7 @@ jobs:
 
 ## Scoring Parameter & Metric Reference
 
-| Parameter / Metric | Canonical Value (`v1.1.0`) | Operational Description |
+| Parameter / Metric | Canonical Value (`v1.1.2`) | Operational Description |
 | :--- | :--- | :--- |
 | `tau_1` ($\tau_1$) | `0.60` (60%) | Minimum internal certainty $q_1$ required for `A1` convergence to beat `A3c` abstention on `S1`. |
 | `tau_N` ($\tau_N$) | `0.76` (76%) | Minimum multi-path constraint confidence $q_N$ required for `A2` Pareto mapping to beat `A3b` weight polling on `SN`. |
@@ -200,10 +204,10 @@ print(f"q=0.80 Uniform EV | Always-A1: {ev_blind_a1_q80:.2f} | Always-A2: {ev_bl
 '
 ```
 
-To export the `1:1` blueprint visual cards to a crisp vector PDF:
+A pre-rendered copy is included at [`assets/epistemic-state-carousel.pdf`](assets/epistemic-state-carousel.pdf). To re-export the `1:1` blueprint visual cards from source:
 
-1. Open `assets/epistemic-state-carousel-1x1.html` in Chromium, Edge, or Chrome.
-2. Press `Ctrl+P` (`Cmd+P` on macOS), select **Save as PDF**, set **Margins: None**, enable **Background graphics**, and save.
+1. Open `assets/epistemic_state_carousel_1x1_v1_1_0.html` in Chromium, Edge, or Chrome.
+2. Click **Export 2-Page 1:1 PDF (Ctrl+P)** (or press `Ctrl+P` / `Cmd+P`), set **Margins: None**, enable **Background graphics**, and save.
 
 ---
 
@@ -230,7 +234,7 @@ Authored by **Elijah N. Dean, BSME** (`endean-eng` // Dean Innovative Design LLC
   title       = {State Recognition Before Execution: Blind S0 / S1 / SN Epistemic Benchmarking},
   author      = {Dean, Elijah N.},
   institution = {Dean Innovative Design LLC},
-  version     = {1.1.1},
+  version     = {1.1.2},
   year        = {2026},
   month       = {11},
   doi         = {10.5281/zenodo.24598906},
